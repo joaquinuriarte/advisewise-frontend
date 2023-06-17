@@ -1,3 +1,5 @@
+// TODO: Change style to global styles
+
 function Header() {
     return (
         <header className="bg-blue-200 text-gray-800 p-4">
