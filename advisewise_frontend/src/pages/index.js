@@ -1,28 +1,32 @@
-import ClassTable from "@/components/ClassTable";
+import ClassTable from "@/components/classTable/ClassTable";
+import {fetchAllClasses} from '../lib/backend.js';
 
-const numbersArray = Array.from({ length: 35 }, (_, index) => index + 1);
-
-
-export default function Home() {
+export default function Home({ classes }) {
   return (
-    <main className="flex justify-center">
-      <div className="container flex">
-        <div className="column column flex flex-col items-center w-1/2">
-          <h1 className="elegant-heading-large">Classes Available</h1>
-          <div className="flex justify-center w-full">
-            <ClassTable>
-              <tbody>
-                  {numbersArray.map((x) => <tr key={x}><td>{x}</td></tr>)}
-              </tbody>
-            </ClassTable>
-          </div>
+      <div className="flex w-full min-h-screen">
+        <div className="column flex flex-col items-center w-1/3">
+            <ClassTable classes={classes} />
         </div>
-        <div className="column flex flex-col items-center w-1/2">
-          <h1 className="elegant-heading-large">Four-Year Plan</h1>
+        <div className="column flex flex-col items-center w-2/3"> {/*TODO: w-2/3 no funciona*/}
+          <h1 className="column elegant-heading-large">Four-Year Plan</h1>
           {/* Other content goes here */}
           {/* Add your other elements */}
         </div>
       </div>
-    </main>
   );
+}
+
+
+export async function getStaticProps() {
+  try {
+    const classes = await fetchAllClasses();
+    return {
+      props: {
+        classes: classes || [],
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }

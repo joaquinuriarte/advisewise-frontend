@@ -54,6 +54,11 @@ button:hover {
     flex: 1;
     padding: 20px;
 }
+
+.column-medium {
+    flex: 1;
+    padding: 0px;
+}
   
   /* Text Styles */
   
