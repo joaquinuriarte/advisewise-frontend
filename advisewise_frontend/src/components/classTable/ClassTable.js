@@ -1,6 +1,6 @@
 import React from 'react';
-import ClassTableHeader from './ClassTableHeader';
-import ClassTableRows from './ClassTableRows';
+import ClassTableHeader from './classTableHeader';
+import ClassTableRows from './classTableRows';
 
 const ClassTable = ({ classes }) => {
   return (
