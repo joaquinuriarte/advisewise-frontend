@@ -39,3 +39,47 @@
 }
 
 /* Four-Year Plan*/
+
+
+/* Semester -> NOT BEING USED BECAUSE SOMETHING IS FAULTY*/ 
+
+.semester {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 320px;
+    padding: 8px;
+    margin: 8px;
+}
+  
+.semester-header, .semester-footer {
+    padding: 8px;
+    background-color: #f0f0f0;
+}
+  
+.semester-title {
+    text-align: center;
+}
+  
+.column-headers, .class-row {
+    display: flex;
+    margin-bottom: 4px;
+}
+  
+.class-header, .class-name {
+    width: 75%;
+}
+  
+.credits-header, .class-credits {
+    width: 25%;
+    text-align: center;
+}
+  
+.difficulty {
+    width: 50%;
+}
+  
+.total-credits {
+    width: 50%;
+    text-align: right;
+}
+  
