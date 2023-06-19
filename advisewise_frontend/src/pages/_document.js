@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-class MyDocument extends Document {
+class MyDocument extends Document { // TODO: Is this doing anything? Understand and eliminate accoridngly
   render() {
     return (
       <Html>

@@ -1,0 +1,41 @@
+/* Header & Footer Styles */ 
+.header-footer-main {
+    @apply bg-blue-200 text-gray-800 p-4;
+  }
+
+.header-footer-text {
+    @apply text-lg font-semibold text-gray-800;
+}
+
+
+/* Text Styles */ 
+.elegant-heading-large {
+    @apply font-nunito font-semibold text-darkgray text-xl;
+}
+
+.elegant-heading-medium {
+    @apply font-nunito font-semibold text-darkgray text-lg;
+}
+
+.elegant-heading-small {
+    @apply font-nunito font-semibold text-darkgray text-base;
+}
+
+
+/* COMPONENTS */ 
+
+
+/* classTable */ 
+.class-table-header {
+    @apply p-2 text-center bg-blue-100;
+}
+
+.class-table-border {
+    @apply h-screen border border-gray-600 rounded-md overflow-y-auto;
+}
+
+.class-table-row {
+    @apply p-2 text-center;
+}
+
+/* Four-Year Plan*/

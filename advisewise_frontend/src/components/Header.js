@@ -1,11 +1,11 @@
-// TODO: Change style to global styles
-
 function Header() {
-    return (
-        <header className="bg-blue-200 text-gray-800 p-4">
-            <h1 className="elegant-heading text-lg font-semibold text-gray-800">advisewise</h1>
-        </header>
-    );
+  return (
+    <header className="header-footer-main">
+      <h1 className="header-footer-text">advisewise</h1>
+    </header>
+  );
 }
 
 export default Header;
+
+

@@ -59,26 +59,3 @@ button:hover {
     flex: 1;
     padding: 0px;
 }
-  
-  /* Text Styles */
-  
-.elegant-heading-large {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 600;
-    color: #2d3748; /* dark gray */
-    font-size: 24px; /* Large font size */
-}
-
-.elegant-heading-medium {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 600;
-    color: #2d3748; /* dark gray */
-    font-size: 19px; /* Large font size */
-}
-
-.elegant-heading-small {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 600;
-    color: #2d3748; /* dark gray */
-    font-size: 14px; /* Large font size */
-}

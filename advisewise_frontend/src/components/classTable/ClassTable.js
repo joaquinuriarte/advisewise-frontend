@@ -8,8 +8,8 @@ const ClassTable = ({ classes }) => {
       <div className="p-4 flex justify-center">
         <h1 className="elegant-heading-large">Classes Available</h1>
       </div>
-      <div className="h-screen border border-gray-600 rounded-md overflow-y-auto">
-        <table className="w-full h-full">
+      <div className="class-table-border max-h-[595px] overflow-y-auto">
+        <table className="w-full">
           <colgroup>
             <col style={{width: '70%'}}/>
             <col style={{width: '30%'}}/>
