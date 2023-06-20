@@ -8,29 +8,28 @@ const Semester = ({ classes, semester, semester_classes }) => {
 
 
   return (
-    <div className="border border-gray-400 rounded-md w-80 p-2 m-2">
-      <div className="bg-gray-200 p-2 text-center">
-        <h2 className="elegant-heading-small">{semester.name}</h2>
+    <div className="bg-white border rounded-xl w-80 p-2 m-2">
+      <div className="bg-lighter_gray p-2 rounded-md text-center">
+        <h2 className="font-semibold elegant-heading-small text-dark_gray">{semester.name}</h2>
       </div>
 
-
       <div className="p-2">
-        <div className="flex mb-2 font-semibold">
-          <div className="elegant-heading-small w-3/4">Class</div>
-          <div className=" elegant-heading-small w-1/4 text-center">Credits</div>
+        <div className="flex mb-2">
+          <div className="font-semibold elegant-heading-small w-3/4 text-dark_gray">Class</div>
+          <div className="font-semibold elegant-heading-small w-1/4 text-center text-dark_gray">Credits</div>
         </div>
 
         {classInfo.map((info) => (
           <div key={info[0]} className="flex mb-1">
-            <div className="elegant-heading-small w-3/4">{info[0]}</div>
-            <div className="elegant-heading-small w-1/4 text-center">{info[1]}</div>
+            <div className="elegant-heading-small w-3/4 text-dark_gray">{info[0]}</div>
+            <div className="elegant-heading-small w-1/4 text-center text-dark_gray">{info[1]}</div>
           </div>
         ))}
       </div>
 
-      <div className="p-2 bg-gray-100 flex">
-        <div className="elegant-heading-small w-1/2">Difficulty</div>
-        <div className="elegant-heading-small w-1/2 text-right">Total Credits: {totalCredits}</div>
+      <div className="p-2 bg-lighter_gray rounded-md flex">
+        <div className="elegant-heading-small w-1/2 text-dark_gray">Difficulty</div>
+        <div className="elegant-heading-small w-1/2 text-right text-dark_gray">Total Credits: {totalCredits}</div>
       </div>
     </div>
   );

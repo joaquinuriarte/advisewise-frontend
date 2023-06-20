@@ -4,11 +4,11 @@ import ClassTableRows from './classTableRows';
 
 const ClassTable = ({ classes }) => {
   return (
-    <div className="w-full">
+    <div className="w-[450px]">
       <div className="p-4 flex justify-center">
-        <h1 className="elegant-heading-large">Classes Available</h1>
+        <h1 className="elegant-heading-large text-blue pt-1 pb-1">Classes Available</h1>
       </div>
-      <div className="class-table-border max-h-[595px] overflow-y-auto">
+      <div className="class-table-border max-h-[476px]">
         <table className="w-full">
           <colgroup>
             <col style={{width: '70%'}}/>

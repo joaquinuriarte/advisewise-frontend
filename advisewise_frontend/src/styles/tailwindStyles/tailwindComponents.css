@@ -1,24 +1,43 @@
-/* Header & Footer Styles */ 
+/* App General */
+.app-background {
+    @apply bg-light_gray;
+}
+
+/* New Header */
+.header-container {
+    @apply flex justify-between items-center bg-dark_gray rounded-full p-2 mt-3 box-border;
+    position: sticky; /* or you can use fixed */
+    top: 0; /* It should stick to the top */
+    z-index: 1000; /* To make sure it stays above other content */
+    width: 20%;
+ }
+
+.menu-items {
+    @apply flex items-center ml-9; /* Adjust margin-left here */
+}
+  
+
+/* Old Header & Footer Styles */ 
 .header-footer-main {
-    @apply bg-blue-200 text-gray-800 p-4;
+    @apply bg-light_gray pb-3;
   }
 
 .header-footer-text {
-    @apply text-lg font-semibold text-gray-800;
+    @apply text-lg font-semibold text-dark_gray;
 }
 
 
 /* Text Styles */ 
 .elegant-heading-large {
-    @apply font-nunito font-semibold text-darkgray text-xl;
+    @apply font-nunito font-semibold text-xl;
 }
 
 .elegant-heading-medium {
-    @apply font-nunito font-semibold text-darkgray text-lg;
+    @apply font-nunito text-lg;
 }
 
 .elegant-heading-small {
-    @apply font-nunito font-semibold text-darkgray text-base;
+    @apply font-nunito text-base;
 }
 
 
@@ -27,59 +46,28 @@
 
 /* classTable */ 
 .class-table-header {
-    @apply p-2 text-center bg-blue-100;
+    @apply p-2 text-center bg-lighter_gray;
 }
 
 .class-table-border {
-    @apply h-screen border border-gray-600 rounded-md overflow-y-auto;
+    @apply h-screen border rounded-l-3xl bg-white overflow-y-auto rounded-r-3xl;
+    scrollbar-width: none;
+}
+
+.class-table-border::-webkit-scrollbar {
+    display: none;
 }
 
 .class-table-row {
-    @apply p-2 text-center;
+    @apply p-2 text-center bg-white;
 }
 
 /* Four-Year Plan*/
+.four-year-plan-border {
+    @apply py-4 pt-0 bg-light_gray overflow-x-auto;
+    scrollbar-width: none;
+}
 
-
-/* Semester -> NOT BEING USED BECAUSE SOMETHING IS FAULTY*/ 
-
-.semester {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 320px;
-    padding: 8px;
-    margin: 8px;
+.four-year-plan-border::-webkit-scrollbar {
+    display: none;
 }
-  
-.semester-header, .semester-footer {
-    padding: 8px;
-    background-color: #f0f0f0;
-}
-  
-.semester-title {
-    text-align: center;
-}
-  
-.column-headers, .class-row {
-    display: flex;
-    margin-bottom: 4px;
-}
-  
-.class-header, .class-name {
-    width: 75%;
-}
-  
-.credits-header, .class-credits {
-    width: 25%;
-    text-align: center;
-}
-  
-.difficulty {
-    width: 50%;
-}
-  
-.total-credits {
-    width: 50%;
-    text-align: right;
-}
-  

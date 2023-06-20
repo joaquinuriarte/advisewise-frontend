@@ -4,8 +4,10 @@ import Footer from './Footer';
 function Layout({ children }) {
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">{children}</main>
+            <div className="app-background flex items-center justify-center">
+                <Header />
+            </div>
+            <main className="flex-grow app-background">{children}</main>
             <Footer />
         </div>
     );

@@ -15,6 +15,13 @@ module.exports = {
       colors: {
         darkgray: '#2d3748',
         classTableHeader: 'rgba(235, 246, 255, 1)',
+        white: '#FFFFFF',
+        light_gray: '#f5f5f5',
+        lighter_gray: '#fafafa',
+        dark_gray: '#303638',
+        blue: '#027df5',
+        red: '#f50202',
+        orange: '#f55f02',
       },
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],

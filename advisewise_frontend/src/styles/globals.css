@@ -52,10 +52,20 @@ button:hover {
   
 .column {
     flex: 1;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }
 
 .column-medium {
     flex: 1;
     padding: 0px;
+}
+
+.line-horizontal {
+    display: block;
+}
+
+.w-px {
+    width: 1px;
 }

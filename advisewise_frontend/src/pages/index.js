@@ -3,18 +3,24 @@ import FourYearPlan from "@/components/fourYearPlan/fourYearPlan";
 import { fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses } from '../lib/backend.js';
 
 export default function Home({ classes, semesters, all_semester_classes }) {
-
   return (
-    <div className="flex w-full min-h-screen">
-      <div className="column flex flex-col items-center w-1/3">
-        <ClassTable classes={classes} />
-      </div>
-      <div className="column flex flex-col items-center w-2/3">
-        <FourYearPlan classes={classes} semesters={semesters} all_semester_classes={all_semester_classes} />
+    <div className="main-content pt-4">
+      <div className="flex w-full h-auto pt-0">
+        <div className="flex flex-col items-center w-1/4 sm:w-full pt-0 sm:pt-4">
+          <ClassTable classes={classes} />
+        </div>
+        <div className="flex flex-col items-center w-3/4 sm:w-full pt-0 sm:pt-4 overflow-x-auto">
+          <FourYearPlan classes={classes} semesters={semesters} all_semester_classes={all_semester_classes} />
+        </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
 
 export async function getStaticProps() {
   try {
