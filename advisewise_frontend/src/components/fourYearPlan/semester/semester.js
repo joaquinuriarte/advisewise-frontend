@@ -2,7 +2,8 @@ import React from 'react';
 
 const Semester = ({ classes, semester, semester_classes }) => {
  
-
+  console.log("hey")
+  console.log(semester_classes);
   const classInfo = getClassInfo(semester_classes, classes);
   const totalCredits = classInfo.reduce((sum, info) => sum + info[1], 0);
 
@@ -38,6 +39,10 @@ const Semester = ({ classes, semester, semester_classes }) => {
 export default Semester;
 
 function getClassInfo(semesterClasses, classes) {
+  if (!Array.isArray(semesterClasses)) {
+    return [];
+  }
+  
   const classMap = new Map(classes.map((classItem) => [classItem.id, classItem]));
   return semesterClasses
     .map((semesterClass) => classMap.get(semesterClass.course_id))
