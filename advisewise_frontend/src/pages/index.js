@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 export default function Home({ classes, semesters, all_semester_classes }) {
   
   const [semClasses, setSemClasses] = useState([]);
-  
+  const [isLoading, setIsLoading] = useState(true);
+  console.log("hey")
 
   useEffect(() => {
     let initialSemClasses = [];
@@ -18,13 +19,13 @@ export default function Home({ classes, semesters, all_semester_classes }) {
     });
 
     setSemClasses(initialSemClasses);
+    setIsLoading(false);
     
   }, [all_semester_classes, semesters]);
 
-  // console.log("yes");
-  // console.log(semClasses);
-  // console.log(semClasses[0]);
-  // console.log(all_semester_classes);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   
   return (
     <div className="main-content pt-4">
@@ -39,16 +40,6 @@ export default function Home({ classes, semesters, all_semester_classes }) {
     </div>
   );
 }
-
-
-
-
-// cada element en semesters es un semester. Hay que tener un array holding all classes de ese sem. Cuando all_semester_classes llega, populate those arrays y render
-  // un state pa el array que holds estos arrays
-  // si el user cambia algo, lo que haces es que añades la clase a este array
-    // clase puede ser id y lo fetch con funcion esa
-  // despues si le da save, creamos en PUT y table entry mechanism pa que esos new array entries se loggeen en la tabla de all_sem_classes y si vuelves a fetch te salgan todas
-  
 
 export async function getStaticProps() {
   try {
@@ -76,3 +67,9 @@ export async function getStaticProps() {
     throw error;
   }
 }
+// cada element en semesters es un semester. Hay que tener un array holding all classes de ese sem. Cuando all_semester_classes llega, populate those arrays y render
+  // un state pa el array que holds estos arrays
+  // si el user cambia algo, lo que haces es que añades la clase a este array
+    // clase puede ser id y lo fetch con funcion esa
+  // despues si le da save, creamos en PUT y table entry mechanism pa que esos new array entries se loggeen en la tabla de all_sem_classes y si vuelves a fetch te salgan todas
+  
