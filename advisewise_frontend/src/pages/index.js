@@ -88,9 +88,3 @@ export async function getStaticProps() {
     throw error;
   }
 }
-// cada element en semesters es un semester. Hay que tener un array holding all classes de ese sem. Cuando all_semester_classes llega, populate those arrays y render
-  // un state pa el array que holds estos arrays
-  // si el user cambia algo, lo que haces es que añades la clase a este array
-    // clase puede ser id y lo fetch con funcion esa
-  // despues si le da save, creamos en PUT y table entry mechanism pa que esos new array entries se loggeen en la tabla de all_sem_classes y si vuelves a fetch te salgan todas
-  

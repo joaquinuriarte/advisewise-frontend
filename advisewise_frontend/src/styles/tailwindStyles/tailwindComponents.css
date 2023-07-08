@@ -11,10 +11,19 @@
     z-index: 1000; /* To make sure it stays above other content */
     width: 20%;
  }
+ .header-expanded-container {
+    @apply flex justify-between items-center bg-dark_gray rounded-full p-2 mt-3 box-border;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 40%; /* Update the width value to make it larger */
+  }
 
 .menu-items {
     @apply flex items-center ml-9; /* Adjust margin-left here */
 }
+
+
   
 
 /* Old Header & Footer Styles */ 
