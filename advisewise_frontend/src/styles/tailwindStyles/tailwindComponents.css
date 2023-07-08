@@ -71,3 +71,7 @@
 .four-year-plan-border::-webkit-scrollbar {
     display: none;
 }
+
+.border-red {
+    border-color: red;
+  }

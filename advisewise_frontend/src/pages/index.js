@@ -6,8 +6,34 @@ import { useState, useEffect } from "react";
 export default function Home({ classes, semesters, all_semester_classes }) {
   
   const [semClasses, setSemClasses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  console.log("hey")
+  const [selectedSemester, setSelectedSemester] = useState(null);
+
+  const handleSemesterSelection = (semesterId) => {
+    setSelectedSemester(semesterId);
+  };
+
+  const addClassToSemester = (selectedClass) => {
+    if (selectedSemester === null) {
+      // No semester selected
+      return;
+    }
+    const new_class = {course_id: selectedClass.id, difficulty: 'Medium'}; //TODO: Here you would idealy have selectedClass.difficulty
+   
+    setSemClasses((prevSemClasses) => {
+      const semesterIndex = semesters.findIndex((sem) => sem.id === selectedSemester);
+      if (semesterIndex !== -1) {
+        const newSemClasses = [...prevSemClasses]; // Create a new array reference
+        newSemClasses[semesterIndex] = [...newSemClasses[semesterIndex], new_class];
+        console.log(newSemClasses);
+        return newSemClasses;
+      }
+  
+      return prevSemClasses; // No changes made
+    });
+  };
+  
+  
+  
 
   useEffect(() => {
     let initialSemClasses = [];
@@ -19,22 +45,17 @@ export default function Home({ classes, semesters, all_semester_classes }) {
     });
 
     setSemClasses(initialSemClasses);
-    setIsLoading(false);
     
   }, [all_semester_classes, semesters]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
   
   return (
-    <div className="main-content pt-4">
-      <div className="flex w-full h-auto pt-0">
-        <div className="flex flex-col items-center w-1/4 sm:w-full pt-0 sm:pt-4">
-          <ClassTable classes={classes} />
+    <div className="pt-6">
+      <div className="flex w-full h-full overflow-x-hidden overflow-y-hidden">
+        <div className="pl-4 flex-none">
+          <ClassTable classes={classes} onClassSelection={addClassToSemester}/>
         </div>
-        <div className="flex flex-col items-center w-3/4 sm:w-full pt-0 sm:pt-4 overflow-x-auto">
-          <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} />
+        <div className="flex-grow overflow-x-auto">
+          <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester}/>
         </div>
       </div>
     </div>
