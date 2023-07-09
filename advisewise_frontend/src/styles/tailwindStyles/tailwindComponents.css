@@ -5,23 +5,41 @@
 
 /* New Header */
 .header-container {
-    @apply flex justify-between items-center bg-dark_gray rounded-full p-2 mt-3 box-border;
+    @apply flex justify-between items-center bg-dark_gray rounded-3xl p-2 mt-3 box-border;
     position: sticky; /* or you can use fixed */
     top: 0; /* It should stick to the top */
     z-index: 1000; /* To make sure it stays above other content */
-    width: 20%;
+    width:30%;
  }
  .header-expanded-container {
-    @apply flex justify-between items-center bg-dark_gray rounded-full p-2 mt-3 box-border;
+    @apply bg-dark_gray rounded-3xl p-2 mt-3 box-border;
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 40%; /* Update the width value to make it larger */
+    width: 30%; /* Update the width value to make it larger */
+    height: 60vh;
   }
 
 .menu-items {
     @apply flex items-center ml-9; /* Adjust margin-left here */
 }
+
+.header-expanded-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+}
+
+.blur {
+    filter: blur(4px);
+}
+  
 
 
   

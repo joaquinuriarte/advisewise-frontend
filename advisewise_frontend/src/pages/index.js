@@ -8,6 +8,19 @@ export default function Home({ classes, semesters, all_semester_classes }) {
   const [semClasses, setSemClasses] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState(null);
 
+  useEffect(() => {
+    let initialSemClasses = [];
+
+    semesters.forEach((semester) => {
+      const semesterId = semester.id;
+      const semesterClasses = all_semester_classes[semesterId] || [];
+      initialSemClasses.push(semesterClasses);
+    });
+
+    setSemClasses(initialSemClasses);
+    
+  }, [all_semester_classes, semesters]);
+
   const handleSemesterSelection = (semesterId) => {
     setSelectedSemester(semesterId);
   };
@@ -31,27 +44,13 @@ export default function Home({ classes, semesters, all_semester_classes }) {
       return prevSemClasses; // No changes made
     });
   };
-  
-  
-  
 
-  useEffect(() => {
-    let initialSemClasses = [];
-
-    semesters.forEach((semester) => {
-      const semesterId = semester.id;
-      const semesterClasses = all_semester_classes[semesterId] || [];
-      initialSemClasses.push(semesterClasses);
-    });
-
-    setSemClasses(initialSemClasses);
-    
-  }, [all_semester_classes, semesters]);
+ 
   
   return (
     <div className="pt-6">
       <div className="flex w-full h-full overflow-x-hidden overflow-y-hidden">
-        <div className="pl-4 flex-none">
+        <div className="pl-4 pr-4 flex-none">
           <ClassTable classes={classes} onClassSelection={addClassToSemester}/>
         </div>
         <div className="flex-grow overflow-x-auto">
