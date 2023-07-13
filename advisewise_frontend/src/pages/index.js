@@ -1,6 +1,7 @@
 import ClassTable from "@/components/classTable/classTable";
 import FourYearPlan from "@/components/fourYearPlan/fourYearPlan";
-import { fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses } from '../lib/backend.js';
+import ChatBox from "@/components/chatbox/ChatBox";
+import { fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses, updateFourYearPlan } from '../lib/backend.js';
 import { useState, useEffect } from "react";
 
 export default function Home({ classes, semesters, all_semester_classes }) {
@@ -25,7 +26,7 @@ export default function Home({ classes, semesters, all_semester_classes }) {
     setSelectedSemester(semesterId);
   };
 
-  const addClassToSemester = (selectedClass) => {
+  const addClassToSemester = async (selectedClass) => {
     if (selectedSemester === null) {
       // No semester selected
       return;
@@ -43,6 +44,11 @@ export default function Home({ classes, semesters, all_semester_classes }) {
   
       return prevSemClasses; // No changes made
     });
+    let update = await updateFourYearPlan(semClasses);
+    if (!update) {
+      //TODO: Warning message
+      console.log("Failed MISERABLY");
+    }
   };
 
  
@@ -59,8 +65,8 @@ export default function Home({ classes, semesters, all_semester_classes }) {
           </div>
         </div>
   
-        <div className="flex pt-10 pl-64" style={{height: '20%'}}>
-          <h1>A WHOLE ROW</h1>
+        <div className="flex pt-10 pl-64" style={{height: '80%'}}>
+          <ChatBox />
         </div>
   
     </div>
