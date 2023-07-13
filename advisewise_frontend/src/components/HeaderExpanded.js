@@ -3,9 +3,9 @@ import React from 'react';
 function HeaderExpanded({ onHeaderExpandClick }) {
   return (
     <header className="header-expanded-container">
-      <div className="flex justify-between items-center w-full sticky top-0 z-50">
+      <div className="flex justify-between items-center w-full sticky top-0 z-50" onClick={onHeaderExpandClick}>
         <h1 className="font-nunito text-white text-base px-2 pl-2">advisewise</h1>
-        <div className="menu-items" onClick={onHeaderExpandClick}>
+        <div className="menu-items">
           <h1 className="font-nunito text-blue text-base px-2">Λ</h1>
         </div>
       </div>

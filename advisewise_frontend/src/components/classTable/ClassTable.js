@@ -8,9 +8,9 @@ const ClassTable = ({ classes, onClassSelection }) => {
   };
 
   return (
-    <div className="flex flex-col h-max w-80">
-      <div className="p-4 flex justify-center">
-        <h1 className="elegant-heading-large text-blue pt-1 pb-1">Classes Available</h1>
+    <div className="flex flex-col h-full w-full">
+      <div className="flex justify-center p-4">
+        <h1 className="elegant-heading-large text-blue py-1">Classes Available</h1>
       </div>
       <div className="class-table-border">
         <table className="w-full">

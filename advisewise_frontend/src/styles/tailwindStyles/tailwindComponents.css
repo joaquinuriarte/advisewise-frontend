@@ -70,6 +70,12 @@
 
 /* COMPONENTS */ 
 
+/* index.js */
+.align-items-stretch {
+  align-items: stretch;
+}
+
+
 
 /* classTable */ 
 .class-table-header {
@@ -77,7 +83,7 @@
 }
 
 .class-table-border {
-    @apply h-screen border rounded-l-3xl bg-white overflow-y-auto rounded-r-3xl;
+    @apply flex flex-col border rounded-l-3xl rounded-r-3xl overflow-y-auto bg-white;
     scrollbar-width: none;
 }
 
@@ -91,7 +97,7 @@
 
 /* Four-Year Plan*/
 .four-year-plan-border {
-    @apply py-4 pt-0 bg-light_gray overflow-x-auto;
+    @apply flex flex-col justify-center overflow-x-auto bg-light_gray;
     scrollbar-width: none;
 }
 
@@ -102,3 +108,9 @@
 .border-red {
     border-color: red;
   }
+
+  /* Semester */
+
+.semester-classes::-webkit-scrollbar {
+    display: none;
+}

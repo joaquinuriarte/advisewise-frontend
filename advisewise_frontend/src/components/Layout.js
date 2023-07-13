@@ -8,21 +8,22 @@ function Layout({ children }) {
 
   const handleHeaderExpandClick = () => {
     setIsHeaderExpanded(!isHeaderExpanded);
-  };
+  }; 
 
-  return (
+  //TODO: Header is always rendering so that <main /> doesn't shift up when user changes to expanded header. Not sure if this is the best solution.  
+  //TODO: Cuando cambias a header expanded hay un color inconsistency arriba en el header area
+  //TODO: el V no se cambia a azul cuando clicks
+  return ( 
     <div className="flex flex-col min-h-screen relative">
       <div className="app-background flex items-center justify-center">
-        {!isHeaderExpanded && (
-          <Header onHeaderExpandClick={handleHeaderExpandClick} />
-        )}
-      </div>
+        <Header onHeaderExpandClick={handleHeaderExpandClick} /> 
+      </div> 
       {isHeaderExpanded && (
         <div className="header-expanded-overlay">
         <HeaderExpanded onHeaderExpandClick={handleHeaderExpandClick} />
         </div>
       )}
-      <main className={`flex-grow app-background ${isHeaderExpanded ? 'blur' : ''}`}>
+      <main className={`flex-grow app-background ${isHeaderExpanded ? 'blur' : ''}`}  style={{overflow: 'auto'}}>
         {children}
       </main>
       <Footer />

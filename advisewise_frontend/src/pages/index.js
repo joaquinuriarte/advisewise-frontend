@@ -48,17 +48,25 @@ export default function Home({ classes, semesters, all_semester_classes }) {
  
   
   return (
-    <div className="pt-6">
-      <div className="flex w-full h-full overflow-x-hidden overflow-y-hidden">
-        <div className="pl-4 pr-4 flex-none">
-          <ClassTable classes={classes} onClassSelection={addClassToSemester}/>
+    <div className="flex flex-col" style={{height: '100vh'}}>
+        <div className="flex flex-grow pt-6" style={{height: '80%', width: '100%'}}>
+          <div className="pl-2 pr-1" style={{width: '25%'}}>
+              <ClassTable classes={classes} onClassSelection={addClassToSemester}/>
+          </div>
+    
+          <div className="overflow-x-auto pl-1 pr-2" style={{width: '75%'}}>
+              <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester}/>
+          </div>
         </div>
-        <div className="flex-grow overflow-x-auto">
-          <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester}/>
+  
+        <div className="flex pt-10 pl-64" style={{height: '20%'}}>
+          <h1>A WHOLE ROW</h1>
         </div>
-      </div>
+  
     </div>
   );
+  
+
 }
 
 export async function getStaticProps() {
