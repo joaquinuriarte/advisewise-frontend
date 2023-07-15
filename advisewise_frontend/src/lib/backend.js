@@ -50,9 +50,9 @@ export async function fetchAllSemesterClasses(semester) {
     }
 }
 
-export async function updateFourYearPlan({ newFourYearPlan }) {
+export async function updateFourYearPlan( newFourYearPlan ) {
   try {
-    const response = await fetch('http://localhost:4000/schedule/all', {
+    const response = await fetch('http://localhost:4000/schedule/updateEntirePlan', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

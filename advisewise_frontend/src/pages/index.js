@@ -9,13 +9,14 @@ export default function Home({ classes, semesters, all_semester_classes }) {
   const [semClasses, setSemClasses] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState(null);
 
+
   useEffect(() => {
     let initialSemClasses = [];
 
     semesters.forEach((semester) => {
       const semesterId = semester.id;
       const semesterClasses = all_semester_classes[semesterId] || [];
-      initialSemClasses.push(semesterClasses);
+      initialSemClasses.push([semesterId, semesterClasses]);
     });
 
     setSemClasses(initialSemClasses);
@@ -31,28 +32,34 @@ export default function Home({ classes, semesters, all_semester_classes }) {
       // No semester selected
       return;
     }
-    const new_class = {course_id: selectedClass.id, difficulty: 'Medium'}; //TODO: Here you would idealy have selectedClass.difficulty
-   
-    setSemClasses((prevSemClasses) => {
-      const semesterIndex = semesters.findIndex((sem) => sem.id === selectedSemester);
-      if (semesterIndex !== -1) {
-        const newSemClasses = [...prevSemClasses]; // Create a new array reference
-        newSemClasses[semesterIndex] = [...newSemClasses[semesterIndex], new_class];
-        console.log(newSemClasses);
-        return newSemClasses;
-      }
+    
+    const newClass = {course_id: selectedClass.id, difficulty: 'Medium'}; //TODO: Here you would ideally have selectedClass.difficulty
   
-      return prevSemClasses; // No changes made
+    // Capture newSemClasses value immediately after state update
+    let newSemClasses = semClasses.map((semClassTuple) => {
+      const [semesterId, semClass] = semClassTuple;
+  
+      if (semesterId === selectedSemester) {
+        // This is the selected semester - append the new class
+        return [semesterId, [...semClass, newClass]];
+      }
+      // Not the selected semester - return it as is
+      return semClassTuple;
     });
-    let update = await updateFourYearPlan(semClasses);
+  
+    // Update the state
+    setSemClasses(newSemClasses);
+
+    newClass['semester_id'] = selectedSemester;
+    let update = await updateFourYearPlan(newClass);
+  
     if (!update) {
       //TODO: Warning message
       console.log("Failed MISERABLY");
     }
   };
-
- 
   
+
   return (
     <div className="flex flex-col" style={{height: '100vh'}}>
         <div className="flex flex-grow pt-6" style={{height: '80%', width: '100%'}}>

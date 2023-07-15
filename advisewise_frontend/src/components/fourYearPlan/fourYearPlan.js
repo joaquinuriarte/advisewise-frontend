@@ -12,13 +12,16 @@ const FourYearPlan = ({ classes, semesters, semClasses, onSemesterSelection, sel
       <div className="four-year-plan-border" style={{height: '100%', width: '100%'}}>
         <div className="inline-flex whitespace-nowrap" style={{height: '50%'}}>
           {semesters.slice(0, 4).map((semester) => (
-            <Semester key={semester.id} classes={classes} semester={semester} semester_classes={semClasses[semester.id-1]} onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} style={{width: '25%'}}/>
+            <Semester key={semester.id} classes={classes} semester={semester} semester_classes={(semClasses.find(tuple => tuple[0] === semester.id) || [])[1]} 
+              onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} style={{width: '25%'}}/>
           ))}
         </div>
 
         <div className="inline-flex whitespace-nowrap" style={{height: '50%'}}>
           {semesters.slice(4).map((semester) => (
-            <Semester key={semester.id} classes={classes} semester={semester} semester_classes={semClasses[semester.id-1]} onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} style={{width: '25%'}}/>
+            <Semester key={semester.id} classes={classes} semester={semester} semester_classes={(semClasses.find(tuple => tuple[0] === semester.id) || [])[1]} 
+              onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} style={{width: '25%'}}/>
+
           ))}
         </div>
       </div>
