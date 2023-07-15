@@ -1,7 +1,7 @@
 import ClassTable from "@/components/classTable/classTable";
 import FourYearPlan from "@/components/fourYearPlan/fourYearPlan";
 import ChatBox from "@/components/chatbox/ChatBox";
-import { fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses, updateFourYearPlan } from '../lib/backend.js';
+import { fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses, updateFourYearPlanAdd, updateFourYearPlanRemove } from '../lib/backend.js';
 import { useState, useEffect } from "react";
 
 export default function Home({ classes, semesters, all_semester_classes }) {
@@ -27,6 +27,41 @@ export default function Home({ classes, semesters, all_semester_classes }) {
     setSelectedSemester(semesterId);
   };
 
+  const eliminateClassFromSemester = async (selectedClass) => {
+    if (selectedSemester === null) {
+      // No semester selected
+      return;
+    }
+
+    // Capture newSemClasses value immediately after state update
+    let newSemClasses = semClasses.map((semClassTuple) => {
+      const [semesterId, semClass] = semClassTuple;
+  
+      if (semesterId === selectedSemester) {
+        // This is the selected semester - remove the selected class
+        return [
+          semesterId,
+          semClass.filter((classItem) => classItem.course_id !== selectedClass.id),
+        ];
+      }
+      // Not the selected semester - return it as is
+      return semClassTuple;
+    });
+  
+    // Update the state
+    setSemClasses(newSemClasses);
+  
+    // Send a request to the backend to update the four year plan
+    const removedClass = { course_id: selectedClass.id, difficulty: 'Medium', semester_id: selectedSemester};
+    let update = await updateFourYearPlanRemove(removedClass);
+  
+    if (!update) {
+      // TODO: Warning message
+      console.log("Failed to remove class");
+    }
+  };
+  
+
   const addClassToSemester = async (selectedClass) => {
     if (selectedSemester === null) {
       // No semester selected
@@ -51,11 +86,11 @@ export default function Home({ classes, semesters, all_semester_classes }) {
     setSemClasses(newSemClasses);
 
     newClass['semester_id'] = selectedSemester;
-    let update = await updateFourYearPlan(newClass);
+    let update = await updateFourYearPlanAdd(newClass);
   
     if (!update) {
       //TODO: Warning message
-      console.log("Failed MISERABLY");
+      console.log("Failed to add class");
     }
   };
   
@@ -68,7 +103,7 @@ export default function Home({ classes, semesters, all_semester_classes }) {
           </div>
     
           <div className="overflow-x-auto pl-1 pr-2" style={{width: '75%'}}>
-              <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester}/>
+              <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester} onClassSelection={eliminateClassFromSemester}/>
           </div>
         </div>
   

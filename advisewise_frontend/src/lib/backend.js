@@ -50,9 +50,29 @@ export async function fetchAllSemesterClasses(semester) {
     }
 }
 
-export async function updateFourYearPlan( newFourYearPlan ) {
+export async function updateFourYearPlanAdd( newFourYearPlan ) {
   try {
-    const response = await fetch('http://localhost:4000/schedule/updateEntirePlan', {
+    const response = await fetch('http://localhost:4000/schedule/updateEntirePlanAdd', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newFourYearPlan),
+    });
+    if (!response.ok) {
+      console.error('Failed to send data to the backend');
+      return false; // Return false if the response is not ok
+    }
+    return true; // Return true if the data was successfully sent
+  } catch (error) {
+    console.error('An error occurred while sending the data:', error);
+    return false; // Return false in case of an error
+  }
+}
+
+export async function updateFourYearPlanRemove( newFourYearPlan ) {
+  try {
+    const response = await fetch('http://localhost:4000/schedule/updateEntirePlanRemove', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

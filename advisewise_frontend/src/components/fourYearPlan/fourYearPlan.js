@@ -2,7 +2,12 @@ import Semester from './semester/Semester';
 
 //TODO: Only allows for 8 semester schedules. More or less will fuck everything up. 
 
-const FourYearPlan = ({ classes, semesters, semClasses, onSemesterSelection, selectedSemester}) => {
+const FourYearPlan = ({ classes, semesters, semClasses, onSemesterSelection, selectedSemester, onClassSelection}) => {
+
+  const handleClassClick = (classItem) => {
+    onClassSelection(classItem);
+  };
+
   return (
     <div className="flex flex-col w-full h-full">
       <div className="flex justify-center p-4">
@@ -13,14 +18,14 @@ const FourYearPlan = ({ classes, semesters, semClasses, onSemesterSelection, sel
         <div className="inline-flex whitespace-nowrap" style={{height: '50%'}}>
           {semesters.slice(0, 4).map((semester) => (
             <Semester key={semester.id} classes={classes} semester={semester} semester_classes={(semClasses.find(tuple => tuple[0] === semester.id) || [])[1]} 
-              onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} style={{width: '25%'}}/>
+              onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} onClickClass={handleClassClick} style={{width: '25%'}}/>
           ))}
         </div>
 
         <div className="inline-flex whitespace-nowrap" style={{height: '50%'}}>
           {semesters.slice(4).map((semester) => (
             <Semester key={semester.id} classes={classes} semester={semester} semester_classes={(semClasses.find(tuple => tuple[0] === semester.id) || [])[1]} 
-              onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} style={{width: '25%'}}/>
+              onSemesterSelection={onSemesterSelection} selectedSemester={selectedSemester} onClickClass={handleClassClick} style={{width: '25%'}}/>
 
           ))}
         </div>

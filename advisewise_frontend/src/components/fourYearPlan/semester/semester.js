@@ -1,8 +1,12 @@
 import React from 'react';
 
-const Semester = ({ classes, semester, semester_classes, selectedSemester, onSemesterSelection, style}) => {
+const Semester = ({ classes, semester, semester_classes, selectedSemester, onSemesterSelection, onClickClass, style}) => {
   const classInfo = getClassInfo(semester_classes, classes);
-  const totalCredits = classInfo.reduce((sum, info) => sum + info[1], 0);
+  const totalCredits = classInfo.reduce((sum, classItem) => sum + classItem.number_of_credits, 0);
+
+  const handleClassClick = (classItem) => {
+    onClickClass(classItem);
+  };
 
   return (
     <div 
@@ -24,10 +28,10 @@ const Semester = ({ classes, semester, semester_classes, selectedSemester, onSem
           <div className="font-semibold elegant-heading-small w-1/4 text-center text-dark_gray">Credits</div>
         </div>
 
-        {classInfo.map(([className, credits]) => (
-          <div key={className} className="flex mb-1 sticky top-[-1] z-10">
-            <div className="elegant-heading-small w-3/4 text-dark_gray">{className}</div>
-            <div className="elegant-heading-small w-1/4 text-center text-dark_gray">{credits}</div>
+        {classInfo.map((classItem) => ( //TODO: if you click on a class in a new sem it will fire both onClicks in this script. It should fire the top one first then this one here. 
+          <div key={classItem.id} className="flex mb-1 sticky top-[-1] z-10" onClick={() => handleClassClick(classItem)}>
+            <div className="elegant-heading-small w-3/4 text-dark_gray">{classItem.class_name}</div>
+            <div className="elegant-heading-small w-1/4 text-center text-dark_gray">{classItem.number_of_credits}</div>
           </div>
         ))}
       </div>
@@ -51,6 +55,6 @@ function getClassInfo(semesterClasses, classes) {
   const classMap = new Map(classes.map((classItem) => [classItem.id, classItem]));
   return semesterClasses
     .map((semesterClass) => classMap.get(semesterClass.course_id))
-    .filter(Boolean)
-    .map((classItem) => [classItem.class_name, classItem.number_of_credits]);
+    .filter(Boolean);
 }
+
