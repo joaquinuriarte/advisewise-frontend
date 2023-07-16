@@ -1,11 +1,9 @@
+// _app.js
 import '@/styles/globals.css'
 import '@/styles/tailwindStyles/tailwindComponents.css';
-import Layout from '../components/Layout';
 
 export default function App({ Component, pageProps }) {
   return (
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    );
+    <Component {...pageProps} />
+  );
 }

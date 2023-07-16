@@ -1,17 +1,24 @@
-import ClassTable from "@/components/classTable/classTable";
-import FourYearPlan from "@/components/fourYearPlan/fourYearPlan";
-import ChatBox from "@/components/chatbox/ChatBox";
-import { fetchAllFourYearPlans, fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses, updateFourYearPlanAdd, updateFourYearPlanRemove } from '../lib/backend.js';
+import HeaderExpanded from '@/components/HeaderExpanded';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Main from '@/components/Main';
+import { fetchAllFourYearPlans, fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses } from '../lib/backend.js';
 import { useState, useEffect } from "react";
 
 export default function Home({ startingPlan, fourYearPlans, classes, semesters, all_semester_classes }) {
   
+  const [currentFourYearPlanId, setCurrentFourYearPlanId] = useState(startingPlan);
   const [semClasses, setSemClasses] = useState([]);
-  const [selectedSemester, setSelectedSemester] = useState(null);
-  const [currentPlan, setCurrentPlan] = useState(startingPlan);
-  
-  //Test: make this work
-  console.log(fourYearPlans);
+  const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
+  const [planSemesters, setPlanSemesters] = useState(semesters);
+
+  const handleHeaderExpandClick = () => {
+    setIsHeaderExpanded(!isHeaderExpanded);
+  }; 
+
+  const handleSemesterClasses = (newSemClasses) => {
+    setSemClasses(newSemClasses);
+  }
 
   const updateSemestersAndClasses = (semesterList, allSemClasses) => {
     let currentSemClasses = [];
@@ -22,6 +29,7 @@ export default function Home({ startingPlan, fourYearPlans, classes, semesters, 
       currentSemClasses.push([semesterId, semesterClasses]);
     });
 
+    setPlanSemesters(semesterList);
     setSemClasses(currentSemClasses);
   };
 
@@ -29,79 +37,9 @@ export default function Home({ startingPlan, fourYearPlans, classes, semesters, 
     updateSemestersAndClasses(semesters, all_semester_classes);
   }, [all_semester_classes, semesters]);
 
-  const handleSemesterSelection = (semesterId) => {
-    setSelectedSemester(semesterId);
-  };
-
   const handleFourYearPlanSelection = (fourYearPlanId) => {
-    setCurrentPlan(fourYearPlanId);
+    setCurrentFourYearPlanId(fourYearPlanId);
     handleChangeFourYearPlan(fourYearPlanId);
-  };
-
-  const eliminateClassFromSemester = async (selectedClass) => {
-    if (selectedSemester === null) {
-      // No semester selected
-      return;
-    }
-
-    // Capture newSemClasses value immediately after state update
-    let newSemClasses = semClasses.map((semClassTuple) => {
-      const [semesterId, semClass] = semClassTuple;
-  
-      if (semesterId === selectedSemester) {
-        // This is the selected semester - remove the selected class
-        return [
-          semesterId,
-          semClass.filter((classItem) => classItem.course_id !== selectedClass.id),
-        ];
-      }
-      // Not the selected semester - return it as is
-      return semClassTuple;
-    });
-  
-    // Update the state
-    setSemClasses(newSemClasses);
-  
-    // Send a request to the backend to update the four year plan
-    const removedClass = { course_id: selectedClass.id, difficulty: 'Medium', semester_id: selectedSemester};
-    let update = await updateFourYearPlanRemove(removedClass);
-  
-    if (!update) {
-      // TODO: Warning message
-      console.log("Failed to remove class");
-    }
-  };
-  
-  const addClassToSemester = async (selectedClass) => {
-    if (selectedSemester === null) {
-      // No semester selected
-      return;
-    }
-    
-    const newClass = {course_id: selectedClass.id, difficulty: 'Medium'}; //TODO: Here you would ideally have selectedClass.difficulty
-  
-    // Capture newSemClasses value immediately after state update
-    let newSemClasses = semClasses.map((semClassTuple) => {
-      const [semesterId, semClass] = semClassTuple;
-  
-      if (semesterId === selectedSemester) {
-        // This is the selected semester - append the new class
-        return [semesterId, [...semClass, newClass]];
-      }
-      // Not the selected semester - return it as is
-      return semClassTuple;
-    });
-  
-    // Update the state
-    setSemClasses(newSemClasses);
-
-    newClass['semester_id'] = selectedSemester;
-    let update = await updateFourYearPlanAdd(newClass);
-  
-    if (!update) {
-      //TODO: Warning message
-      console.log("Failed to add class");
-    }
   };
 
   const handleChangeFourYearPlan = async (newPlanId) => {
@@ -110,9 +48,9 @@ export default function Home({ startingPlan, fourYearPlans, classes, semesters, 
 
     // Fetch classes for each semester of the new plan
     const all_semester_classes = {};
-    for (let i = 0; i < semesters.length; i++) {
+    for (let i = 0; i < newSemesters.length; i++) {
       try {
-        all_semester_classes[semesters[i].id] = await fetchAllSemesterClasses(semesters[i].id);
+        all_semester_classes[newSemesters[i].id] = await fetchAllSemesterClasses(newSemesters[i].id);
       } catch (error) {
         console.error('Error fetching semester classes:', error);
       }
@@ -124,22 +62,27 @@ export default function Home({ startingPlan, fourYearPlans, classes, semesters, 
   }
   
 
-  return (
-    <div className="flex flex-col" style={{height: '100vh'}}>
-        <div className="flex flex-grow pt-6" style={{height: '80%', width: '100%'}}>
-          <div className="pl-2 pr-1" style={{width: '25%'}}>
-              <ClassTable classes={classes} onClassSelection={addClassToSemester}/>
+  //TODO: Header is always rendering so that <main /> doesn't shift up when user changes to expanded header. Not sure if this is the best solution.  
+  //TODO: Cuando cambias a header expanded hay un color inconsistency arriba en el header area
+  //TODO: el V no se cambia a azul cuando clicks
+
+
+  // Header expanded no esta blurring y esta fucked up
+  return ( 
+    <div className='app-background'>
+      <div className="flex flex-col min-h-screen relative">
+        <div className=" flex items-center justify-center">
+          <Header onHeaderExpandClick={handleHeaderExpandClick}/> 
+        </div> 
+        {isHeaderExpanded && (
+          <div className="header-expanded-overlay">
+          <HeaderExpanded onHeaderExpandClick={handleHeaderExpandClick} onFourYearPlanSelection={handleFourYearPlanSelection} fourYearPlans={fourYearPlans} currentPlan={currentFourYearPlanId}/>
           </div>
-    
-          <div className="overflow-x-auto pl-1 pr-2" style={{width: '75%'}}>
-              <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester} onClassSelection={eliminateClassFromSemester}/>
-          </div>
-        </div>
-  
-        <div className="flex pt-10 pl-64" style={{height: '80%'}}>
-          <ChatBox />
-        </div>
-  
+        )}
+        <Main className={`flex-grow app-background ${isHeaderExpanded ? 'blur' : ''}`}  style={{overflow: 'auto'}}
+          classes={classes} semesters={planSemesters} semClasses={semClasses} onSemesterClasses={handleSemesterClasses}/>
+        <Footer />
+      </div>
     </div>
   );
   
@@ -151,7 +94,7 @@ export async function getStaticProps() {
     // SECTION 1: FETCHING DATA
     // Fetch four-year plans and classes data concurrently using Promise.all for better performance.
     const [fourYearPlans, classes] = await Promise.all([
-      fetchAllFourYearPlans(1),
+      fetchAllFourYearPlans(1), //TODO: The parameter should be the student_id granted after authentication
       fetchAllClasses(),
     ]);
 

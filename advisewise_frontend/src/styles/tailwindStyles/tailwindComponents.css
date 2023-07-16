@@ -38,6 +38,7 @@
 
 .blur {
     filter: blur(4px);
+    backdrop-filter: blur(5px);
 }
   
 

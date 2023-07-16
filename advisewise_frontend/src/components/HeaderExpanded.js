@@ -1,6 +1,9 @@
 import React from 'react';
 
-function HeaderExpanded({ onHeaderExpandClick }) {
+function HeaderExpanded({ onHeaderExpandClick, onFourYearPlanSelection, fourYearPlans, currentPlan}) {
+
+  console.log(fourYearPlans);
+
   return (
     <header className="header-expanded-container">
       <div className="flex justify-between items-center w-full sticky top-0 z-50" onClick={onHeaderExpandClick}>
