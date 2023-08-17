@@ -89,9 +89,9 @@ export default function Main({ classes, semesters, semClasses, onSemesterClasses
                   <FourYearPlan classes={classes} semesters={semesters} semClasses={semClasses} onSemesterSelection={handleSemesterSelection} selectedSemester={selectedSemester} onClassSelection={eliminateClassFromSemester}/>
               </div>
             </div>
-      
+            
             <div className="flex pt-10 pl-64" style={{height: '80%'}}>
-              <ChatBox />
+              
             </div>
       
         </div>
