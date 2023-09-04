@@ -3,25 +3,73 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-rgb: 245, 245, 245; /* white pearl background color */
+    --primary-color: 79, 94, 99; /* dark slate for elegant typography */
+    --accent-color: 219, 218, 213; /* light beige for accents */
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-rgb: 40, 40, 40; /* dark background for dark mode */
+        --primary-color: 204, 204, 204; /* light gray for dark mode typography */
+        --accent-color: 90, 100, 110; /* dark slate for dark mode accents */
+    }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--primary-color));
+    /* background: rgb(var(--background-rgb)); */
+    background-color: pearl;
+    font-family: 'Nunito', sans-serif; /* Nunito is a good choice for elegant typography */
+}
+
+/* Optional - Simple button styling */
+button {
+    background-color: rgb(var(--accent-color));
+    border: none;
+    color: rgb(var(--primary-color));
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgb(var(--primary-color));
+    color: rgb(var(--accent-color));
+}
+
+.container {
+    display: flex;
+}
+  
+.column {
+    flex: 1;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.column-medium {
+    flex: 1;
+    padding: 0px;
+}
+
+.line-horizontal {
+    display: block;
+}
+
+.w-px {
+    width: 1px;
+}
+
+.border-box {
+    box-sizing: border-box;
 }

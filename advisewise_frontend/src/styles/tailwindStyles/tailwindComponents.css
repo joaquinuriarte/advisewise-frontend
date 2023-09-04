@@ -1,0 +1,117 @@
+/* App General */
+.app-background {
+    @apply bg-light_gray;
+}
+
+/* New Header */
+.header-container {
+    @apply flex justify-between items-center bg-dark_gray rounded-3xl p-2 mt-3 box-border;
+    position: sticky; /* or you can use fixed */
+    top: 0; /* It should stick to the top */
+    z-index: 1000; /* To make sure it stays above other content */
+    width:30%;
+ }
+ .header-expanded-container {
+    @apply bg-dark_gray rounded-3xl p-2 mt-3 box-border;
+    position: sticky;
+    top: 0;
+    z-index: 9000;
+    width: 30%; /* Update the width value to make it larger */
+    height: 60vh;
+  }
+
+.menu-items {
+    @apply flex items-center ml-9; /* Adjust margin-left here */
+}
+
+.header-expanded-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+}
+
+.blur {
+    filter: blur(4px);
+    backdrop-filter: blur(5px);
+}
+  
+
+
+  
+
+/* Old Header & Footer Styles */ 
+.header-footer-main {
+    @apply bg-light_gray pb-3;
+  }
+
+.header-footer-text {
+    @apply text-lg font-semibold text-dark_gray;
+}
+
+
+/* Text Styles */ 
+.elegant-heading-large {
+    @apply font-nunito font-semibold text-xl;
+}
+
+.elegant-heading-medium {
+    @apply font-nunito text-lg;
+}
+
+.elegant-heading-small {
+    @apply font-nunito text-base;
+}
+
+
+/* COMPONENTS */ 
+
+/* index.js */
+.align-items-stretch {
+  align-items: stretch;
+}
+
+
+
+/* classTable */ 
+.class-table-header {
+    @apply p-2 text-center bg-lighter_gray;
+}
+
+.class-table-border {
+    @apply flex flex-col border rounded-l-3xl rounded-r-3xl overflow-y-auto bg-white;
+    scrollbar-width: none;
+}
+
+.class-table-border::-webkit-scrollbar {
+    display: none;
+}
+
+.class-table-row {
+    @apply p-2 text-center bg-white;
+}
+
+/* Four-Year Plan*/
+.four-year-plan-border {
+    @apply flex flex-col justify-center overflow-x-auto bg-light_gray;
+    scrollbar-width: none;
+}
+
+.four-year-plan-border::-webkit-scrollbar {
+    display: none;
+}
+
+.border-red {
+    border-color: red;
+  }
+
+  /* Semester */
+
+.semester-classes::-webkit-scrollbar {
+    display: none;
+}

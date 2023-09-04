@@ -1,118 +1,148 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import HeaderExpanded from '@/components/HeaderExpanded';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Main from '@/components/Main';
+import { fetchAllFourYearPlans, fetchAllClasses, fetchAllSemesters, fetchAllSemesterClasses } from '../lib/backend.js';
+import { useState, useEffect } from "react";
 
-const inter = Inter({ subsets: ['latin'] })
+export default function Home({ startingPlan, fourYearPlans, classes, semesters, all_semester_classes }) {
+  
+  const [currentFourYearPlanId, setCurrentFourYearPlanId] = useState(startingPlan);
+  const [semClasses, setSemClasses] = useState([]);
+  const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
+  const [planSemesters, setPlanSemesters] = useState(semesters);
 
-export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+  const handleHeaderExpandClick = () => {
+    setIsHeaderExpanded(!isHeaderExpanded);
+  }; 
+
+  const handleSemesterClasses = (newSemClasses) => {
+    setSemClasses(newSemClasses);
+  }
+
+  const updateSemestersAndClasses = (semesterList, allSemClasses) => {
+    let currentSemClasses = [];
+
+    semesterList.forEach((semester) => {
+      const semesterId = semester.id;
+      const semesterClasses = allSemClasses[semesterId] || [];
+      currentSemClasses.push([semesterId, semesterClasses]);
+    });
+
+    setPlanSemesters(semesterList);
+    setSemClasses(currentSemClasses);
+  };
+
+  useEffect(() => {
+    updateSemestersAndClasses(semesters, all_semester_classes);
+  }, [all_semester_classes, semesters]);
+
+  const handleFourYearPlanSelection = (fourYearPlanId) => {
+    setCurrentFourYearPlanId(fourYearPlanId);
+    handleChangeFourYearPlan(fourYearPlanId);
+  };
+
+  const handleChangeFourYearPlan = async (newPlanId) => {
+    // Fetch semesters for the new plan
+    const newSemesters = await fetchAllSemesters({ fourYearPlan: newPlanId });
+
+    // Fetch classes for each semester of the new plan
+    const all_semester_classes = {};
+    for (let i = 0; i < newSemesters.length; i++) {
+      try {
+        all_semester_classes[newSemesters[i].id] = await fetchAllSemesterClasses(newSemesters[i].id);
+      } catch (error) {
+        console.error('Error fetching semester classes:', error);
+      }
+    }
+  
+    // Update semClasses with the new semesters
+    updateSemestersAndClasses(newSemesters, all_semester_classes);
+    
+  }
+  
+
+  //TODO: Header is always rendering so that <main /> doesn't shift up when user changes to expanded header. Not sure if this is the best solution.  
+  //TODO: Cuando cambias a header expanded hay un color inconsistency arriba en el header area
+  //TODO: el V no se cambia a azul cuando clicks
+
+
+  // Header expanded no esta blurring y esta fucked up
+  return ( 
+    <div className='app-background'>
+      <div className="flex flex-col min-h-screen relative">
+        <div className=" flex items-center justify-center">
+          <Header onHeaderExpandClick={handleHeaderExpandClick}/> 
+        </div> 
+        {isHeaderExpanded && (
+          <div className="header-expanded-overlay">
+          <HeaderExpanded onHeaderExpandClick={handleHeaderExpandClick} onFourYearPlanSelection={handleFourYearPlanSelection} fourYearPlans={fourYearPlans} currentPlan={currentFourYearPlanId}/>
+          </div>
+        )}
+        <Main className={`flex-grow app-background ${isHeaderExpanded ? 'blur' : ''}`}  style={{overflow: 'auto'}}
+          classes={classes} semesters={planSemesters} semClasses={semClasses} onSemesterClasses={handleSemesterClasses}/>
+        <Footer />
       </div>
+    </div>
+  );
+  
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
 }
+
+export async function getStaticProps() {
+  try {
+    // SECTION 1: FETCHING DATA
+    // Fetch four-year plans and classes data concurrently using Promise.all for better performance.
+    const [fourYearPlans, classes] = await Promise.all([
+      fetchAllFourYearPlans(1), //TODO: The parameter should be the student_id granted after authentication
+      fetchAllClasses(),
+    ]);
+
+    // SECTION 2: DETERMINING THE OFFICIAL PLAN
+    // Start with the assumption that the first plan in the array is the official plan.
+    let officialPlanId = fourYearPlans[0]['id']; 
+
+    // Iterate over the four-year plans to find if there is a plan marked as 'official'.
+    for (let i = 0; i < fourYearPlans.length; i++) {
+      if (fourYearPlans[i]['official'] === true) {
+        // If an 'official' plan is found, update officialPlanId and break out of the loop.
+        officialPlanId = fourYearPlans[i]['id']; 
+        break; 
+      }
+    }
+
+    // SECTION 3: FETCHING SEMESTERS
+    // Fetch semesters associated with the determined official plan.
+    const semesters = await fetchAllSemesters({ fourYearPlan: officialPlanId }); 
+
+    // SECTION 4: FETCHING SEMESTER CLASSES
+    // Prepare a container to hold the fetched semester classes.
+    const all_semester_classes = {};
+
+    // Iterate over the fetched semesters to fetch classes for each semester.
+    for (let i = 0; i < semesters.length; i++) {
+      try {
+        all_semester_classes[semesters[i].id] = await fetchAllSemesterClasses(semesters[i].id);
+      } catch (error) {
+        console.error('Error fetching semester classes:', error);
+      }
+    }
+
+    // SECTION 5: RETURNING PROPS
+    // Return all fetched data as props for the component.
+    return {
+      props: {
+        startingPlan: officialPlanId, 
+        fourYearPlans: fourYearPlans || [], 
+        classes: classes || [],
+        semesters: semesters || [],
+        all_semester_classes: all_semester_classes,
+      },
+    };
+  } catch (error) {
+    // In case of any error during the fetching process, log the error and re-throw to handle it upstream.
+    console.error('Error fetching classes and semesters:', error);
+    throw error;
+  }
+}
+
